@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+dist-web/
+
+# OS files
+.DS_Store
+
+# IDE
+.vscode/settings.json
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment variables
+.env
+.env.local
+
+# Note: .kiro directory is intentionally NOT ignored (required for hackathon)

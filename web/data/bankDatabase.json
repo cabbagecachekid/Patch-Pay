@@ -1,0 +1,536 @@
+{
+  "banks": [
+    {
+      "id": "chase",
+      "name": "Chase Bank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Chase accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 25,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "bofa",
+      "name": "Bank of America",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between BofA accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 30,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "wells_fargo",
+      "name": "Wells Fargo",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Wells Fargo accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 30,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "citi",
+      "name": "Citibank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Citi accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 25,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "ally",
+      "name": "Ally Bank",
+      "type": "online_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Ally accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 20,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "marcus",
+      "name": "Marcus by Goldman Sachs",
+      "type": "online_bank",
+      "accountTypes": ["savings"],
+      "transferRules": {
+        "external_ach": {
+          "speed": "1_day",
+          "fee": 0,
+          "notes": "Free next-day ACH"
+        }
+      }
+    },
+    {
+      "id": "cashapp",
+      "name": "Cash App",
+      "type": "payment_app",
+      "accountTypes": ["personal", "business"],
+      "transferRules": {
+        "instant_to_bank": {
+          "speed": "instant",
+          "fee_percent": 1.5,
+          "fee_min": 0.25,
+          "notes": "1.5% fee for instant transfer to bank"
+        },
+        "standard_to_bank": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free standard transfer (1-3 business days)"
+        }
+      }
+    },
+    {
+      "id": "venmo",
+      "name": "Venmo",
+      "type": "payment_app",
+      "accountTypes": ["balance"],
+      "transferRules": {
+        "instant_to_bank": {
+          "speed": "instant",
+          "fee_percent": 1.75,
+          "fee_min": 0.25,
+          "fee_max": 25,
+          "notes": "1.75% fee (min $0.25, max $25)"
+        },
+        "standard_to_bank": {
+          "speed": "1_day",
+          "fee": 0,
+          "notes": "Free next business day"
+        }
+      }
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "type": "payment_app",
+      "accountTypes": ["balance"],
+      "transferRules": {
+        "instant_to_bank": {
+          "speed": "instant",
+          "fee_percent": 1.5,
+          "fee_max": 15,
+          "notes": "1.5% fee (max $15)"
+        },
+        "standard_to_bank": {
+          "speed": "1_day",
+          "fee": 0,
+          "notes": "Free next business day"
+        }
+      }
+    },
+    {
+      "id": "zelle",
+      "name": "Zelle",
+      "type": "payment_network",
+      "accountTypes": ["other"],
+      "transferRules": {
+        "instant": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers (if both banks support Zelle)"
+        }
+      }
+    },
+    {
+      "id": "chime",
+      "name": "Chime",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Chime accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "sofi",
+      "name": "SoFi",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between SoFi accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "capital_one",
+      "name": "Capital One",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Capital One accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "discover",
+      "name": "Discover Bank",
+      "type": "online_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Discover accounts"
+        },
+        "external_ach": {
+          "speed": "1_day",
+          "fee": 0,
+          "notes": "Free next-day ACH"
+        }
+      }
+    },
+    {
+      "id": "schwab",
+      "name": "Charles Schwab",
+      "type": "brokerage",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Schwab accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 0,
+          "notes": "Free domestic wires"
+        }
+      }
+    },
+    {
+      "id": "fidelity",
+      "name": "Fidelity",
+      "type": "brokerage",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Fidelity accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "revolut",
+      "name": "Revolut",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Revolut accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "international": {
+          "speed": "1_day",
+          "fee_percent": 0.5,
+          "notes": "Low-cost international transfers"
+        }
+      }
+    },
+    {
+      "id": "varo",
+      "name": "Varo Bank",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Varo accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "current",
+      "name": "Current",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Current accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "instant_gas_back": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Instant gas cashback feature"
+        }
+      }
+    },
+    {
+      "id": "monzo",
+      "name": "Monzo",
+      "type": "neobank",
+      "accountTypes": ["checking"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Monzo accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    },
+    {
+      "id": "wise",
+      "name": "Wise (formerly TransferWise)",
+      "type": "payment_app",
+      "accountTypes": ["balance", "multi_currency"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Wise accounts"
+        },
+        "external_ach": {
+          "speed": "1_day",
+          "fee": 0,
+          "notes": "Free ACH to US banks"
+        },
+        "international": {
+          "speed": "1_day",
+          "fee_percent": 0.4,
+          "notes": "Low-cost international transfers with real exchange rate"
+        }
+      }
+    },
+    {
+      "id": "truist",
+      "name": "Truist Bank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Truist accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 30,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "pnc",
+      "name": "PNC Bank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between PNC accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 30,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "td_bank",
+      "name": "TD Bank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between TD Bank accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 25,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "us_bank",
+      "name": "U.S. Bank",
+      "type": "traditional_bank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between U.S. Bank accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        },
+        "wire_domestic": {
+          "speed": "same_day",
+          "fee": 30,
+          "notes": "Domestic wire transfer"
+        }
+      }
+    },
+    {
+      "id": "credit_karma",
+      "name": "Credit Karma Money",
+      "type": "neobank",
+      "accountTypes": ["checking", "savings"],
+      "transferRules": {
+        "internal": {
+          "speed": "instant",
+          "fee": 0,
+          "notes": "Free instant transfers between Credit Karma accounts"
+        },
+        "external_ach": {
+          "speed": "3_day",
+          "fee": 0,
+          "notes": "Free ACH to external banks"
+        }
+      }
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-11-30",
+    "version": "1.2",
+    "notes": "Comprehensive bank database with transfer fees and rules. Includes 26 financial institutions: traditional banks, neobanks, payment apps, brokerages, and international services. Fees are approximate and may vary."
+  }
+}

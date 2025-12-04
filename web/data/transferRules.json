@@ -1,0 +1,275 @@
+{
+  "accounts": [
+    {
+      "id": "chase_savings",
+      "name": "Chase - Savings",
+      "type": "savings",
+      "institutionType": "traditional_bank",
+      "balance": 5000,
+      "pendingTransactions": []
+    },
+    {
+      "id": "chase_checking",
+      "name": "Chase - Checking",
+      "type": "checking",
+      "institutionType": "traditional_bank",
+      "balance": 2000,
+      "pendingTransactions": [
+        {
+          "id": "pending-1",
+          "accountId": "chase_checking",
+          "amount": -500,
+          "date": "2024-01-15T10:00:00Z",
+          "status": "pending",
+          "description": "Pending payment"
+        }
+      ]
+    },
+    {
+      "id": "credit_union_checking",
+      "name": "Local Credit Union - Checking",
+      "type": "checking",
+      "institutionType": "traditional_bank",
+      "balance": 1200,
+      "pendingTransactions": []
+    },
+    {
+      "id": "cashapp_personal",
+      "name": "Cash App - Personal",
+      "type": "cash_app",
+      "institutionType": "neobank",
+      "balance": 800,
+      "pendingTransactions": []
+    },
+    {
+      "id": "cashapp_business",
+      "name": "Cash App - Business",
+      "type": "cash_app",
+      "institutionType": "neobank",
+      "balance": 450,
+      "pendingTransactions": []
+    },
+    {
+      "id": "venmo_personal",
+      "name": "Venmo - Personal",
+      "type": "venmo",
+      "institutionType": "neobank",
+      "balance": 300,
+      "pendingTransactions": []
+    },
+    {
+      "id": "zelle",
+      "name": "Zelle - Instant Transfer",
+      "type": "zelle",
+      "institutionType": "neobank",
+      "balance": 0,
+      "pendingTransactions": []
+    },
+    {
+      "id": "paypal_personal",
+      "name": "PayPal - Personal",
+      "type": "paypal",
+      "institutionType": "neobank",
+      "balance": 450,
+      "pendingTransactions": []
+    },
+    {
+      "id": "wise",
+      "name": "Wise - Balance",
+      "type": "wise",
+      "institutionType": "neobank",
+      "balance": 600,
+      "pendingTransactions": []
+    },
+    {
+      "id": "chime_checking",
+      "name": "Chime - Checking",
+      "type": "checking",
+      "institutionType": "neobank",
+      "balance": 950,
+      "pendingTransactions": []
+    }
+  ],
+  "transferRules": [
+    {
+      "from": "savings",
+      "to": "checking",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer between same bank accounts"
+    },
+    {
+      "from": "checking",
+      "to": "savings",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer between same bank accounts"
+    },
+    {
+      "from": "cashapp",
+      "to": "checking",
+      "speed": "instant",
+      "fee": 2.50,
+      "notes": "Instant transfer with 1.5% fee (min $2.50)"
+    },
+    {
+      "from": "cashapp",
+      "to": "checking",
+      "speed": "3_day",
+      "fee": 0,
+      "notes": "Free standard ACH transfer"
+    },
+    {
+      "from": "venmo",
+      "to": "checking",
+      "speed": "instant",
+      "fee": 1.75,
+      "notes": "Instant transfer with 1.75% fee"
+    },
+    {
+      "from": "venmo",
+      "to": "checking",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free next-day transfer"
+    },
+    {
+      "from": "savings",
+      "to": "cashapp",
+      "speed": "same_day",
+      "fee": 0,
+      "notes": "Same-day transfer if before 5pm EST"
+    },
+    {
+      "from": "checking",
+      "to": "zelle",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant Zelle transfer from linked bank"
+    },
+    {
+      "from": "savings",
+      "to": "zelle",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant Zelle transfer from linked bank"
+    },
+    {
+      "from": "credit_union",
+      "to": "zelle",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant Zelle transfer"
+    },
+    {
+      "from": "checking",
+      "to": "venmo",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant transfer to Venmo"
+    },
+    {
+      "from": "checking",
+      "to": "cashapp",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant transfer to Cash App"
+    },
+    {
+      "from": "paypal",
+      "to": "checking",
+      "speed": "instant",
+      "fee": 1.50,
+      "notes": "Instant transfer with 1.5% fee (min $1.50)"
+    },
+    {
+      "from": "paypal",
+      "to": "checking",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free next-day transfer"
+    },
+    {
+      "from": "checking",
+      "to": "paypal",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant transfer to PayPal"
+    },
+    {
+      "from": "wise",
+      "to": "checking",
+      "speed": "1_day",
+      "fee": 0.50,
+      "notes": "Low-fee ACH transfer"
+    },
+    {
+      "from": "checking",
+      "to": "wise",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer to Wise"
+    },
+    {
+      "from": "chime",
+      "to": "checking",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant transfer"
+    },
+    {
+      "from": "checking",
+      "to": "chime",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free instant transfer"
+    },
+    {
+      "from": "chime",
+      "to": "zelle",
+      "speed": "instant",
+      "fee": 0,
+      "notes": "Free Zelle transfer"
+    },
+    {
+      "from": "credit_union",
+      "to": "checking",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer"
+    },
+    {
+      "from": "checking",
+      "to": "credit_union",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer"
+    },
+    {
+      "from": "savings",
+      "to": "credit_union",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Free ACH transfer"
+    },
+    {
+      "from": "venmo",
+      "to": "cashapp",
+      "speed": "3_day",
+      "fee": 0,
+      "notes": "Transfer via bank intermediary"
+    },
+    {
+      "from": "cashapp",
+      "to": "venmo",
+      "speed": "3_day",
+      "fee": 0,
+      "notes": "Transfer via bank intermediary"
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-11-29",
+    "version": "2.0",
+    "notes": "Expanded test data with 9 accounts including Zelle, PayPal, Wise, Chime, and Credit Union. Added 25+ transfer rules. Speeds: instant, same_day, 1_day, 3_day. Fee: 0 means free, number is fixed dollar amount."
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "accounts": [
+    {
+      "id": "account-1",
+      "name": "Account Name",
+      "type": "checking",
+      "institutionType": "traditional_bank",
+      "balance": 0,
+      "pendingTransactions": []
+    }
+  ],
+  "transferRules": [
+    {
+      "from": "account-1",
+      "to": "account-2",
+      "speed": "1_day",
+      "fee": 0,
+      "notes": "Description of this transfer rule"
+    }
+  ],
+  "metadata": {
+    "lastUpdated": "2024-01-15",
+    "version": "1.0",
+    "notes": "Copy this template to create your own transfer rules"
+  }
+}

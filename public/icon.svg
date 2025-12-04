@@ -1,0 +1,40 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Metropolis-themed icon: Art Deco geometric design -->
+  <rect width="512" height="512" fill="#000000"/>
+  
+  <!-- Outer geometric frame -->
+  <path d="M 50 50 L 462 50 L 462 100 L 100 100 L 100 462 L 50 462 Z" fill="#f0e6d2" opacity="0.3"/>
+  <path d="M 462 50 L 462 462 L 412 462 L 412 100 L 50 100 L 50 50 Z" fill="#f0e6d2" opacity="0.3"/>
+  
+  <!-- Central gear/machinery motif -->
+  <circle cx="256" cy="256" r="120" fill="none" stroke="#f0e6d2" stroke-width="8"/>
+  <circle cx="256" cy="256" r="90" fill="none" stroke="#f0e6d2" stroke-width="4"/>
+  
+  <!-- Gear teeth (8 points) -->
+  <g transform="translate(256, 256)">
+    <rect x="-8" y="-140" width="16" height="30" fill="#f0e6d2"/>
+    <rect x="-8" y="110" width="16" height="30" fill="#f0e6d2"/>
+    <rect x="-140" y="-8" width="30" height="16" fill="#f0e6d2"/>
+    <rect x="110" y="-8" width="30" height="16" fill="#f0e6d2"/>
+    
+    <g transform="rotate(45)">
+      <rect x="-8" y="-140" width="16" height="30" fill="#f0e6d2"/>
+      <rect x="-8" y="110" width="16" height="30" fill="#f0e6d2"/>
+      <rect x="-140" y="-8" width="30" height="16" fill="#f0e6d2"/>
+      <rect x="110" y="-8" width="30" height="16" fill="#f0e6d2"/>
+    </g>
+  </g>
+  
+  <!-- Central hub -->
+  <circle cx="256" cy="256" r="40" fill="#f0e6d2"/>
+  <circle cx="256" cy="256" r="25" fill="#000000"/>
+  
+  <!-- Art Deco corner accents -->
+  <path d="M 80 80 L 120 80 L 120 90 L 90 90 L 90 120 L 80 120 Z" fill="#f0e6d2"/>
+  <path d="M 432 80 L 432 120 L 422 120 L 422 90 L 392 90 L 392 80 Z" fill="#f0e6d2"/>
+  <path d="M 80 432 L 80 392 L 90 392 L 90 422 L 120 422 L 120 432 Z" fill="#f0e6d2"/>
+  <path d="M 432 432 L 392 432 L 392 422 L 422 422 L 422 392 L 432 392 Z" fill="#f0e6d2"/>
+  
+  <!-- Letter M (Metropolis) -->
+  <text x="256" y="380" font-family="Impact, Arial Black, sans-serif" font-size="80" font-weight="900" fill="#f0e6d2" text-anchor="middle" letter-spacing="0.1em">M</text>
+</svg>

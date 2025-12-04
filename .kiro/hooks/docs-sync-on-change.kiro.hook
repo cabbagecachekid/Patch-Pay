@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "name": "Documentation Sync",
+  "description": "Listens to TypeScript source files, test files, configuration files, and web components. When any of these files change, asks the agent to update the relevant documentation in README files or the docs folder to keep documentation in sync with code changes.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "src/**/*.ts",
+      "web/**/*.tsx",
+      "web/**/*.ts",
+      "*.config.js",
+      "*.config.ts",
+      "tsconfig.json",
+      "package.json",
+      "web/components/*.tsx",
+      "web/hooks/*.ts",
+      "web/pages/*.tsx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Source code has been modified. Please review the changes and update the relevant documentation. Check if any README files (like README_FOR_JUDGES.md or files in web/data/README.md) need updates, or if documentation in the .kiro/specs/ folder or other markdown files should be updated to reflect these code changes. Ensure the documentation accurately describes the current implementation, including any new features, changed APIs, or updated behavior."
+  }
+}

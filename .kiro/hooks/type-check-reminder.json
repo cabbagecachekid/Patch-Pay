@@ -1,0 +1,13 @@
+{
+  "name": "Type Check Reminder",
+  "description": "Remind to run type check after modifying TypeScript files",
+  "enabled": true,
+  "trigger": {
+    "type": "onFileSave",
+    "filePattern": "{src,web}/**/*.{ts,tsx}"
+  },
+  "action": {
+    "type": "agentMessage",
+    "message": "TypeScript file modified. Consider running 'npm run type-check' to verify types."
+  }
+}

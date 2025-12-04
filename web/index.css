@@ -1,0 +1,149 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-metropolis-black text-metropolis-cream font-mono;
+  }
+  
+  * {
+    letter-spacing: 0.05em;
+  }
+
+  /* Focus indicators for accessibility */
+  *:focus-visible {
+    @apply outline-2 outline-offset-2 outline-metropolis-cream;
+  }
+
+  /* Ensure minimum text size */
+  html {
+    font-size: 16px;
+  }
+}
+
+@layer components {
+  .industrial-panel {
+    @apply bg-metropolis-panel border-2 border-metropolis-border shadow-industrial;
+    background-image: 
+      linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.02) 49%, rgba(255,255,255,0.02) 51%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.02) 49%, rgba(255,255,255,0.02) 51%, transparent 52%);
+    background-size: 20px 20px;
+  }
+
+  .metropolis-title {
+    @apply text-metropolis-cream font-heading;
+    text-shadow: 
+      3px 3px 0 #000,
+      -1px -1px 0 #000,
+      1px -1px 0 #000,
+      -1px 1px 0 #000,
+      4px 4px 8px rgba(0,0,0,0.8);
+    letter-spacing: 0.15em;
+  }
+
+  .industrial-button {
+    @apply relative px-8 py-4 font-heading text-xl tracking-widest;
+    @apply bg-metropolis-deep text-metropolis-cream;
+    @apply border-4 border-metropolis-cream;
+    @apply transition-all duration-200;
+    clip-path: polygon(
+      12px 0, calc(100% - 12px) 0,
+      100% 12px, 100% calc(100% - 12px),
+      calc(100% - 12px) 100%, 12px 100%,
+      0 calc(100% - 12px), 0 12px
+    );
+    box-shadow: 
+      inset 0 0 20px rgba(0,0,0,0.5),
+      0 0 20px rgba(232, 220, 200, 0.3),
+      8px 8px 0 rgba(0,0,0,0.8);
+  }
+
+  .industrial-button:hover {
+    @apply bg-metropolis-cream text-metropolis-black;
+    transform: translate(-2px, -2px);
+    box-shadow: 
+      inset 0 0 20px rgba(0,0,0,0.2),
+      0 0 30px rgba(232, 220, 200, 0.6),
+      10px 10px 0 rgba(0,0,0,0.8);
+  }
+
+  .industrial-button:active {
+    transform: translate(0, 0);
+    box-shadow: 
+      inset 0 0 20px rgba(0,0,0,0.5),
+      0 0 20px rgba(232, 220, 200, 0.3),
+      4px 4px 0 rgba(0,0,0,0.8);
+  }
+
+  .industrial-button:disabled {
+    @apply opacity-50 cursor-not-allowed;
+  }
+
+  /* Secondary Button - Less prominent */
+  .industrial-button-secondary {
+    @apply relative px-6 py-3 font-heading text-base tracking-wider;
+    @apply bg-metropolis-panel text-metropolis-cream;
+    @apply border-2 border-metropolis-border;
+    @apply transition-all duration-200;
+  }
+
+  .industrial-button-secondary:hover {
+    @apply bg-metropolis-steel border-metropolis-cream;
+  }
+
+  .industrial-button-secondary:active {
+    @apply bg-metropolis-deep;
+  }
+
+  /* Tertiary Button - Text only, minimal */
+  .industrial-button-tertiary {
+    @apply px-4 py-2 font-heading text-sm tracking-wider;
+    @apply text-metropolis-beige;
+    @apply transition-colors duration-200;
+    @apply hover:text-metropolis-cream;
+  }
+
+  .gauge-display {
+    @apply bg-black border-2 border-metropolis-cream shadow-gauge;
+    @apply font-mono text-metropolis-cream;
+  }
+
+  .warning-light {
+    @apply w-3 h-3 rounded-full;
+    box-shadow: 0 0 10px currentColor, inset 0 0 5px rgba(0,0,0,0.5);
+  }
+
+  .rivet {
+    @apply w-2 h-2 rounded-full bg-metropolis-steel;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.8), 0 1px 0 rgba(255,255,255,0.1);
+  }
+}
+
+/* Scanline effect */
+@keyframes scanline {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
+}
+
+.scanline-effect::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    transparent 50%,
+    rgba(255, 255, 255, 0.02) 51%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  z-index: 9999;
+  animation: scanline 8s linear infinite;
+}
