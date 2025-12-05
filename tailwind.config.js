@@ -6,15 +6,25 @@ export default {
   theme: {
     extend: {
       colors: {
+        // Design System Colors
         'metropolis-black': '#000000',
         'metropolis-deep': '#0a0a0a',
         'metropolis-steel': '#2a2a2a',
-        'metropolis-cream': '#f0e6d2', // Increased contrast from #e8dcc8
-        'metropolis-beige': '#d4c5b0', // Increased contrast from #c4b5a0
+        'metropolis-cream': '#f0e6d2',
+        'metropolis-beige': '#d4c5b0',
         'metropolis-white': '#f5f5f5',
-        'metropolis-danger': '#ff4444', // Increased contrast from #8b0000
+        'metropolis-danger': '#ff4444',
         'metropolis-panel': '#1a1a1a',
         'metropolis-border': '#3a3a3a',
+        // Amber/Gold (Primary Brand)
+        'metropolis-amber': {
+          100: '#FEF3C7',
+          400: '#FBBF24',
+          500: '#F59E0B',
+          600: '#D97706',
+          700: '#B45309',
+          950: '#451A03',
+        },
       },
       fontFamily: {
         'heading': ['Impact', 'Arial Black', 'sans-serif'],

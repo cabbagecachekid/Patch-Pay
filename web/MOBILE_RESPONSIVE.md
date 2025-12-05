@@ -41,22 +41,27 @@ Following Tailwind CSS conventions:
 - **Mode Selector**: Stacked vertical layout
   - "AUTOMATIC" → "AUTO"
   - "MANUAL SWITCHBOARD" → "MANUAL"
-  - "EDIT ACCOUNTS" → "EDIT"
 - **Bottom Bar**: Abbreviated text, smaller padding
 - **Grid Layout**: Single column for all content
+- **Accounts**: Stacked vertically with full details
 
 #### Tablet (640px - 1024px)
 - **Mode Selector**: Horizontal layout with abbreviated text
 - **Grid**: Still single column until lg breakpoint
+- **Accounts**: Vertical list with scrolling
 
 #### Desktop (> 1024px)
-- **Full Layout**: 3-column grid (sidebar + 2-col main)
+- **Full Layout**: 4-column grid (1-col sidebar + 3-col main)
+- **Left Sidebar**: Account list with system status
+- **Main Area**: Route calculator (3 columns)
 - **All Text**: Full labels visible
+- **Accounts**: Scrollable list with max-height
 
 ### Route Calculator
 
 #### Mobile (< 640px)
 - **Form Inputs**: Reduced padding, smaller text
+- **Main Form**: Single column (amount, destination, deadline stacked)
 - **Labels**: "SEND TO (TARGET ACCOUNT)" → "SEND TO (TARGET)"
 - **Source Grid**: 2 columns instead of 3
 - **Stats Grid**: Maintained 3 columns but smaller text
@@ -65,10 +70,10 @@ Following Tailwind CSS conventions:
 - **Transfer Steps**: Stacked layout (vertical)
 - **Route Cards**: Smaller padding, truncated reasoning text
 
-#### Tablet (640px - 768px)
+#### Tablet/Desktop (> 640px)
+- **Main Form**: 3-column grid (amount, destination, deadline in one row)
 - **Source Grid**: 3 columns
-- **Form**: 2-column grid for amount/deadline
-- **Steps**: Still stacked for readability
+- **Steps**: Still stacked for readability on tablet
 
 #### Desktop (> 768px)
 - **Full Layout**: All text and spacing at original size

@@ -153,7 +153,8 @@ git status
 ```
 0:00-0:30: Introduction
   - "Patch Pay: 1927 switchboard technology solving modern money transfer problems"
-  - Show landing page
+  - Show terminal-style landing page with command-line interface
+  - Highlight retro computing aesthetic (macOS window controls, system status)
 
 0:30-1:00: Core Feature
   - Add accounts

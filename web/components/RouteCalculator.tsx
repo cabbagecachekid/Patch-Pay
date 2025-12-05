@@ -23,7 +23,7 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
   // Use context accounts if available, otherwise fall back to props
   const userAccounts = contextAccounts.length > 0 ? contextAccounts : (propAccounts || []);
   const { accounts, transferMatrix, loading, metadata } = useTransferData();
-  const [amount, setAmount] = useState('1000');
+  const [amount, setAmount] = useState('100');
   const [targetAccount, setTargetAccount] = useState('zelle');
   const [primarySource, setPrimarySource] = useState<string>('');
   const [sourceAccounts, setSourceAccounts] = useState<string[]>([]);
@@ -97,7 +97,32 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
   if (loading) {
     return (
       <div className="industrial-panel p-6 text-center">
-        <div className="text-metropolis-cream">Loading transfer data...</div>
+        <div className="text-amber-100">Loading transfer data...</div>
+      </div>
+    );
+  }
+
+  // Show helpful message if no accounts
+  if (userAccounts.length === 0) {
+    return (
+      <div className="bg-black border-4 border-amber-600 p-8 text-center">
+        <div className="text-6xl mb-4">🎯</div>
+        <h2 className="text-2xl text-amber-400 font-bold mb-3 tracking-wider">READY TO FIND ROUTES</h2>
+        <p className="text-amber-100 mb-4 max-w-md mx-auto">
+          Add your bank accounts in the sidebar to start calculating optimal transfer routes
+        </p>
+        <div className="bg-zinc-900 border-2 border-amber-700 p-4 max-w-lg mx-auto text-left">
+          <div className="text-xs text-amber-500 font-bold mb-2 tracking-wider">HOW IT WORKS:</div>
+          <ol className="text-sm text-amber-100 space-y-2 list-decimal list-inside">
+            <li>Add your bank accounts using the "+ ADD" button</li>
+            <li>Enter the amount you want to transfer</li>
+            <li>Set your deadline</li>
+            <li>Click "FIND ROUTES" to see your options</li>
+          </ol>
+        </div>
+        <div className="mt-6 text-xs text-amber-700 italic">
+          Or try the example data from the setup screen
+        </div>
       </div>
     );
   }
@@ -163,41 +188,39 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
 
   return (
     <div className="space-y-6">
-      {/* Favorites Panel */}
+      {/* Compact Favorites Panel */}
       <AnimatePresence>
         {showFavorites && favoriteRoutes.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="industrial-panel p-4 md:p-6 border-2 border-metropolis-amber"
+            className="industrial-panel p-3 border-2 border-amber-600"
           >
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="font-heading text-xl text-metropolis-cream tracking-wider">⭐ FAVORITE ROUTES</h3>
+            <div className="flex justify-between items-center mb-2">
+              <h3 className="font-heading text-sm text-amber-100 tracking-wider">⭐ FAVORITES</h3>
               <button
                 onClick={() => setShowFavorites(false)}
-                className="text-metropolis-beige hover:text-metropolis-cream text-sm"
+                className="text-amber-700 hover:text-amber-100 text-xs"
               >
                 CLOSE
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
               {favoriteRoutes.map(fav => (
-                <div key={fav.id} className="bg-black border border-metropolis-border p-3">
-                  <div className="flex justify-between items-start mb-2">
-                    <div className="font-bold text-metropolis-cream text-sm">{fav.name}</div>
+                <div key={fav.id} className="bg-black border border-amber-700 p-2">
+                  <div className="flex justify-between items-start mb-1">
+                    <div className="font-bold text-amber-100 text-xs truncate">{fav.name}</div>
                     <button
                       onClick={() => removeFavorite(fav.id)}
-                      className="text-metropolis-danger hover:text-red-400 text-xs"
+                      className="text-red-400 hover:text-red-400 text-xs ml-1"
                     >
-                      REMOVE
+                      ✕
                     </button>
                   </div>
-                  <div className="text-xs text-metropolis-beige space-y-1">
-                    <div>Category: {fav.route.category}</div>
-                    <div>Fees: ${fav.route.totalFees.toFixed(2)}</div>
-                    <div>Steps: {fav.route.steps.length}</div>
-                    <div className="text-xs opacity-75">Saved: {new Date(fav.savedAt).toLocaleDateString()}</div>
+                  <div className="text-xs text-amber-700 space-y-0.5">
+                    <div>{fav.route.category} • ${fav.route.totalFees.toFixed(2)}</div>
+                    <div className="text-xs opacity-75">{fav.route.steps.length} steps</div>
                   </div>
                 </div>
               ))}
@@ -207,100 +230,91 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
       </AnimatePresence>
 
       {/* Data Info */}
-      <div className="industrial-panel p-3 md:p-4 mb-4" role="status" aria-label="Data information">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs md:text-sm text-metropolis-beige">
+      <div className="bg-black border-2 border-amber-700 p-3 mb-4" role="status" aria-label="Data information">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs text-amber-700">
           <div>
             <span className="tracking-wider">V{metadata.version}</span>
-            <span className="mx-2 hidden sm:inline" aria-hidden="true">•</span>
-            <span className="hidden sm:inline">UPDATED: {metadata.lastUpdated}</span>
+            <span className="mx-2" aria-hidden="true">•</span>
+            <span>{accounts.length} ACCOUNTS</span>
+            <span className="mx-2" aria-hidden="true">•</span>
+            <span>{transferMatrix.length} ROUTES</span>
           </div>
-          <div className="flex items-center gap-3">
-            <div>
-              <span className="tracking-wider">{accounts.length} ACCOUNTS</span>
-              <span className="mx-2" aria-hidden="true">•</span>
-              <span>{transferMatrix.length} ROUTES</span>
-            </div>
-            {favoriteRoutes.length > 0 && (
-              <button
-                onClick={() => setShowFavorites(!showFavorites)}
-                className="text-metropolis-amber hover:text-metropolis-cream transition-colors text-xs tracking-wider"
-              >
-                ⭐ {favoriteRoutes.length} FAVORITES
-              </button>
-            )}
-          </div>
+          {favoriteRoutes.length > 0 && (
+            <button
+              onClick={() => setShowFavorites(!showFavorites)}
+              className="text-amber-400 hover:text-amber-300 transition-colors text-xs tracking-wider"
+            >
+              ⭐ {favoriteRoutes.length} FAVORITES
+            </button>
+          )}
         </div>
       </div>
 
-      {/* Input Form - Improved Hierarchy */}
-      <div className="industrial-panel p-4 md:p-8">
-        {/* Main Question - Hero Section */}
-        <div className="mb-8">
-          <h2 className="font-heading text-3xl md:text-5xl text-metropolis-cream mb-2 tracking-wider">
-            HOW MUCH?
-          </h2>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-3xl md:text-4xl text-metropolis-amber font-bold">$</span>
-            <input
-              id="transfer-amount"
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-              className="w-full bg-black border-4 border-metropolis-amber pl-16 pr-6 py-4 md:py-6 text-metropolis-cream font-mono focus:outline-none focus:border-metropolis-white text-3xl md:text-5xl font-bold"
-              style={{ clipPath: 'polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px)' }}
-              aria-label="Transfer amount in dollars"
-              placeholder="1000"
-              min="0"
-              step="0.01"
-            />
-          </div>
-        </div>
-
-        {/* Secondary Info - Compact */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      {/* Input Form */}
+      <div className="bg-black border-4 border-amber-600 p-4">
+        {/* Main inputs - 1x3 grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
           <div>
-            <label htmlFor="transfer-deadline" className="block text-sm text-metropolis-beige mb-2 tracking-wider">
-              WHEN DO YOU NEED IT?
+            <label htmlFor="transfer-amount" className="block text-xs text-amber-700 mb-1 tracking-wider">
+              AMOUNT
+            </label>
+            <div className="relative">
+              <span className="absolute left-2 top-1/2 -translate-y-1/2 text-sm text-amber-600">$</span>
+              <input
+                id="transfer-amount"
+                type="number"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="w-full bg-zinc-900 border-2 border-amber-600 pl-6 pr-3 py-2 text-amber-100 font-mono focus:outline-none focus:border-amber-400 text-sm"
+                aria-label="Transfer amount in dollars"
+                placeholder="100"
+                min="0"
+                step="0.01"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="target-account" className="block text-xs text-amber-700 mb-1 tracking-wider">
+              DESTINATION
+            </label>
+            <select
+              id="target-account"
+              value={targetAccount}
+              onChange={(e) => setTargetAccount(e.target.value)}
+              className="w-full bg-zinc-900 border-2 border-amber-600 px-3 py-2 text-amber-100 font-mono focus:outline-none focus:border-amber-400 text-sm"
+              aria-label="Select destination account (required)"
+            >
+              {accounts.map(acc => (
+                <option key={acc.id} value={acc.id}>
+                  {acc.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label htmlFor="transfer-deadline" className="block text-xs text-amber-700 mb-1 tracking-wider">
+              DEADLINE <span className="text-xs italic opacity-75">Optional</span>
             </label>
             <input
               id="transfer-deadline"
               type="datetime-local"
               value={deadline}
               onChange={(e) => setDeadline(e.target.value)}
-              className="w-full bg-black border-2 border-metropolis-cream px-4 py-3 text-metropolis-cream font-mono focus:outline-none focus:border-metropolis-white"
-              style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}
-              aria-label="Transfer deadline date and time"
+              className="w-full bg-zinc-900 border-2 border-amber-600 px-3 py-2 text-amber-100 font-mono focus:outline-none focus:border-amber-400 text-sm"
+              aria-label="Transfer deadline date and time (optional)"
             />
           </div>
         </div>
-
-        {/* Target Account Selection - Prominent */}
-        <div className="mb-8">
-          <h3 className="font-heading text-2xl md:text-3xl text-metropolis-cream mb-3 tracking-wider">
-            WHERE TO?
-          </h3>
-          <select
-            id="target-account"
-            value={targetAccount}
-            onChange={(e) => setTargetAccount(e.target.value)}
-            className="w-full bg-black border-3 border-metropolis-cream px-4 py-4 text-metropolis-cream font-mono focus:outline-none focus:border-metropolis-white text-lg md:text-xl"
-            style={{ clipPath: 'polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)' }}
-            aria-label="Select destination account (required)"
-          >
-            {accounts.map(acc => (
-              <option key={acc.id} value={acc.id}>
-                {acc.name}
-              </option>
-            ))}
-          </select>
-          <p className="text-sm text-metropolis-beige mt-2">
-            💡 Where the money needs to end up
-          </p>
-        </div>
+        
+        <p className="text-xs text-amber-700 mb-3 italic">
+          Leave deadline blank for default 2-day deadline
+        </p>
 
         {/* Primary Source Selection - OPTIONAL */}
-        <div className="mb-4 md:mb-6">
-          <label htmlFor="primary-source" className="block text-xs md:text-sm text-metropolis-beige mb-2 tracking-wider">
+        <div className="mb-4">
+          <label htmlFor="primary-source" className="block text-xs text-amber-700 mb-2 tracking-wider">
             WHERE ARE YOU SENDING IT FROM? <span className="text-xs italic opacity-75">Optional</span>
           </label>
           <select
@@ -313,8 +327,7 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                 setShowAdvancedSources(false);
               }
             }}
-            className="w-full bg-black border-2 border-metropolis-cream px-3 md:px-4 py-2 md:py-3 text-metropolis-cream font-mono focus:outline-none focus:border-metropolis-white text-sm md:text-base"
-            style={{ clipPath: 'polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px)' }}
+            className="w-full bg-zinc-900 border-2 border-amber-600 px-3 py-2 text-amber-100 font-mono focus:outline-none focus:border-amber-400 text-sm"
             aria-label="Select primary source account (optional)"
           >
             <option value="">Use all available accounts (recommended)</option>
@@ -326,13 +339,16 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                 </option>
               ))}
           </select>
-          <p className="text-xs text-metropolis-beige mt-2 italic">
-            💡 Leave blank to find routes from any of your accounts
+          <p className="text-xs text-amber-700 mt-2 italic">
+            Leave blank to find routes from any of your accounts
           </p>
         </div>
 
         {/* Advanced Source Selection - Collapsible */}
-        <div className="mb-4 md:mb-6">
+        <div className="mb-3">
+          <label className="block text-xs text-amber-700 mb-2 tracking-wider">
+            ADVANCED: SELECT SPECIFIC ACCOUNTS <span className="text-xs italic opacity-75">Optional</span>
+          </label>
           <button
             onClick={() => {
               setShowAdvancedSources(!showAdvancedSources);
@@ -340,18 +356,24 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                 setPrimarySource(''); // Clear simple selection
               }
             }}
-            className="text-xs text-metropolis-amber hover:text-metropolis-cream transition-colors tracking-wider mb-2"
+            className="w-full bg-zinc-900 border-2 border-amber-600 px-3 py-2 text-amber-100 font-mono hover:border-amber-400 transition-colors text-sm text-left flex items-center justify-between"
           >
-            {showAdvancedSources ? '▼' : '▶'} ADVANCED: Select specific accounts to use
+            <span>
+              {sourceAccounts.length === 0 
+                ? 'Click to choose specific accounts...'
+                : `${sourceAccounts.length} account${sourceAccounts.length > 1 ? 's' : ''} selected`
+              }
+            </span>
+            <span className="text-amber-400">{showAdvancedSources ? '▼' : '▶'}</span>
           </button>
 
           {showAdvancedSources && (
-            <div>
-              <div className="space-y-4 p-2 md:p-3 bg-black border border-metropolis-border max-h-96 overflow-y-auto">
+            <div className="mt-2">
+              <div className="space-y-4 p-2 md:p-3 bg-black border border-amber-700 max-h-96 overflow-y-auto">
                 {/* User's Added Accounts */}
             {userAccounts.length > 0 && (
               <div>
-                <div className="text-xs text-metropolis-amber mb-2 tracking-wider font-bold">YOUR ACCOUNTS</div>
+                <div className="text-xs text-amber-400 mb-2 tracking-wider font-bold">YOUR ACCOUNTS</div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {userAccounts
                     .filter(acc => acc.id !== targetAccount)
@@ -363,8 +385,8 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                           onClick={() => toggleSourceAccount(acc.id)}
                           className={`p-2 text-left text-xs md:text-sm transition-all ${
                             sourceAccounts.includes(acc.id)
-                              ? 'bg-metropolis-cream text-metropolis-black'
-                              : 'bg-metropolis-panel text-metropolis-cream hover:bg-metropolis-steel'
+                              ? 'bg-amber-600 text-black'
+                              : 'bg-zinc-900 text-amber-100 hover:border-amber-500'
                           }`}
                           aria-pressed={sourceAccounts.includes(acc.id)}
                           aria-label={`${sourceAccounts.includes(acc.id) ? 'Deselect' : 'Select'} ${displayName}`}
@@ -382,7 +404,7 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
 
             {/* Other Available Accounts */}
             <div>
-              <div className="text-xs text-metropolis-beige mb-2 tracking-wider font-bold">
+              <div className="text-xs text-amber-700 mb-2 tracking-wider font-bold">
                 {userAccounts.length > 0 ? 'OTHER AVAILABLE ACCOUNTS' : 'AVAILABLE ACCOUNTS'}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -400,8 +422,8 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                       onClick={() => toggleSourceAccount(acc.id)}
                       className={`p-2 text-left text-xs md:text-sm transition-all ${
                         sourceAccounts.includes(acc.id)
-                          ? 'bg-metropolis-cream text-metropolis-black'
-                          : 'bg-metropolis-panel text-metropolis-cream hover:bg-metropolis-steel'
+                          ? 'bg-amber-600 text-black'
+                          : 'bg-zinc-900 text-amber-100 hover:border-amber-500'
                       }`}
                       aria-pressed={sourceAccounts.includes(acc.id)}
                       aria-label={`${sourceAccounts.includes(acc.id) ? 'Deselect' : 'Select'} ${acc.name}`}
@@ -414,7 +436,7 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
             </div>
               </div>
               
-              <p className="text-xs text-metropolis-beige mt-2 italic">
+              <p className="text-xs text-amber-700 mt-2 italic">
                 {sourceAccounts.length === 0 
                   ? '💡 Select specific accounts or leave empty to use all'
                   : `✓ Using ${sourceAccounts.length} selected account${sourceAccounts.length > 1 ? 's' : ''}`
@@ -424,29 +446,28 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
           )}
         </div>
 
-        {/* Hero Calculate Button */}
-        <div className="space-y-4 mt-8">
+        {/* Calculate Button */}
+        <div className="space-y-2 mt-4">
           <motion.button
             ref={calculateButtonRef}
             onClick={handleCalculate}
             disabled={calculating}
-            className="w-full bg-metropolis-amber hover:bg-yellow-600 text-black font-heading text-2xl md:text-3xl py-6 md:py-8 tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
-            style={{ clipPath: 'polygon(16px 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%, 0 16px)' }}
-            whileHover={{ scale: calculating ? 1 : 1.02 }}
-            whileTap={{ scale: calculating ? 1 : 0.98 }}
+            className="w-full bg-amber-600 hover:bg-amber-500 text-black font-bold text-lg py-3 tracking-wider transition-all disabled:opacity-50 disabled:cursor-not-allowed relative overflow-hidden"
+            whileHover={{ scale: calculating ? 1 : 1.01 }}
+            whileTap={{ scale: calculating ? 1 : 0.99 }}
           >
             {calculating ? (
-              <span className="flex items-center justify-center gap-3">
+              <span className="flex items-center justify-center gap-2">
                 <motion.span
                   animate={{ rotate: 360 }}
                   transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
                 >
                   ⚙️
                 </motion.span>
-                CALCULATING ROUTES...
+                CALCULATING...
               </span>
             ) : (
-              'FIND MY ROUTES ⚡'
+              '⚡ FIND ROUTES'
             )}
             
             {/* Animated background when calculating */}
@@ -459,8 +480,8 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
             )}
           </motion.button>
           
-          {/* Keyboard shortcuts hint - smaller */}
-          <div className="flex justify-center gap-4 text-xs text-metropolis-beige opacity-75">
+          {/* Keyboard shortcuts hint */}
+          <div className="flex justify-center gap-4 text-xs text-amber-700">
             <span>{getShortcutDisplay('ctrl+enter')} to calculate</span>
             <span aria-hidden="true">•</span>
             <span>{getShortcutDisplay('ctrl+k')} for favorites</span>
@@ -479,11 +500,11 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
           >
             {/* Error Display */}
             {'error' in result && (
-              <div className="industrial-panel p-6 border-l-4 border-metropolis-danger" role="alert" aria-live="assertive">
-                <h3 className="font-heading text-xl text-metropolis-danger mb-2 tracking-wider">ERROR</h3>
-                <p className="text-metropolis-cream text-base">{result.message}</p>
+              <div className="bg-black border-4 border-red-600 p-6" role="alert" aria-live="assertive">
+                <h3 className="text-xl text-red-400 mb-2 tracking-wider font-bold">ERROR</h3>
+                <p className="text-amber-100 text-base">{result.message}</p>
                 {result.shortfall && (
-                  <p className="text-metropolis-beige mt-2 text-base">Shortfall: ${result.shortfall.toFixed(2)}</p>
+                  <p className="text-amber-600 mt-2 text-base">Shortfall: ${result.shortfall.toFixed(2)}</p>
                 )}
               </div>
             )}
@@ -495,14 +516,14 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
-                  className="industrial-panel p-6 bg-gradient-to-r from-green-900/20 to-transparent border-l-4 border-green-400"
+                  className="bg-green-950 border-4 border-green-600 p-6"
                 >
-                  <h2 className="font-heading text-3xl text-green-400 tracking-wider flex items-center gap-3">
-                    <span className="text-4xl">✓</span>
+                  <h2 className="text-2xl text-green-400 tracking-wider flex items-center gap-3 font-bold">
+                    <span className="text-3xl">✓</span>
                     ROUTES FOUND
                   </h2>
-                  <p className="text-metropolis-beige mt-2">
-                    We found {result.routes.length} way{result.routes.length > 1 ? 's' : ''} to move ${parseFloat(amount).toLocaleString()}
+                  <p className="text-green-600 mt-2 text-sm">
+                    {result.routes.length} way{result.routes.length > 1 ? 's' : ''} to move ${parseFloat(amount).toLocaleString()}
                   </p>
                 </motion.div>
 
@@ -526,54 +547,54 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
-                    className="industrial-panel p-6"
+                    className="bg-black border-4 border-amber-600 p-6"
                   >
                     <div className="flex justify-between items-start mb-4">
                       <div className="flex-1">
-                        <h3 className="font-heading text-xl md:text-2xl text-metropolis-cream tracking-wider flex items-center gap-2">
+                        <h3 className="text-xl text-amber-400 tracking-wider flex items-center gap-2 font-bold">
                           <span>{getCategoryIcon(route.category)}</span>
                           <span>{route.category.toUpperCase()}</span>
                         </h3>
-                        <p className="text-xs text-metropolis-beige mt-1 italic line-clamp-2">{route.reasoning}</p>
+                        <p className="text-xs text-amber-600 mt-1 italic line-clamp-2">{route.reasoning}</p>
                       </div>
                       <div className={`text-right ml-2 ${getRiskColor(route.riskLevel)}`}>
                         <div className="text-xs tracking-wider">{route.riskLevel.toUpperCase()}</div>
-                        <div className="text-xl md:text-2xl font-bold">{route.riskScore.toFixed(0)}</div>
+                        <div className="text-2xl font-bold">{route.riskScore.toFixed(0)}</div>
                       </div>
                     </div>
 
                     {/* Stats */}
-                    <div className="grid grid-cols-3 gap-2 md:gap-4 mb-4">
-                      <div className="gauge-display p-2 md:p-3">
-                        <div className="text-xs md:text-sm text-metropolis-beige mb-1">FEES</div>
-                        <div className="text-lg md:text-xl font-bold">${route.totalFees.toFixed(2)}</div>
+                    <div className="grid grid-cols-3 gap-3 mb-4">
+                      <div className="bg-zinc-900 border-2 border-amber-700 p-3">
+                        <div className="text-xs text-amber-700 mb-1">FEES</div>
+                        <div className="text-lg font-bold text-amber-100">${route.totalFees.toFixed(2)}</div>
                       </div>
-                      <div className="gauge-display p-2 md:p-3">
-                        <div className="text-xs md:text-sm text-metropolis-beige mb-1">ARRIVAL</div>
-                        <div className="text-xs md:text-sm font-mono">{new Date(route.estimatedArrival).toLocaleDateString()}</div>
+                      <div className="bg-zinc-900 border-2 border-amber-700 p-3">
+                        <div className="text-xs text-amber-700 mb-1">ARRIVAL</div>
+                        <div className="text-sm font-mono text-amber-100">{new Date(route.estimatedArrival).toLocaleDateString()}</div>
                       </div>
-                      <div className="gauge-display p-2 md:p-3">
-                        <div className="text-xs md:text-sm text-metropolis-beige mb-1">STEPS</div>
-                        <div className="text-lg md:text-xl font-bold">{route.steps.length}</div>
+                      <div className="bg-zinc-900 border-2 border-amber-700 p-3">
+                        <div className="text-xs text-amber-700 mb-1">STEPS</div>
+                        <div className="text-lg font-bold text-amber-100">{route.steps.length}</div>
                       </div>
                     </div>
 
                     {/* Steps */}
                     <div className="space-y-2">
-                      <div className="text-xs md:text-sm text-metropolis-beige tracking-wider mb-2">STEPS:</div>
+                      <div className="text-xs text-amber-500 tracking-wider mb-2 font-bold border-b border-amber-700 pb-1">STEPS:</div>
                       <ol className="space-y-2" aria-label={`${route.category} route steps`}>
                         {route.steps.map((step, i) => (
-                          <li key={i} className="bg-black border border-metropolis-border p-2 md:p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
+                          <li key={i} className="bg-zinc-900 border-2 border-amber-700 p-3 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                             <div className="flex-1">
-                              <div className="text-sm md:text-base text-metropolis-cream font-mono">
+                              <div className="text-sm text-amber-100 font-mono">
                                 {step.fromAccountId.toUpperCase()} → {step.toAccountId.toUpperCase()}
                               </div>
-                              <div className="text-xs md:text-sm text-metropolis-beige mt-1">
+                              <div className="text-xs text-amber-700 mt-1">
                                 {step.method} <span aria-hidden="true">•</span> Fee: ${step.fee.toFixed(2)}
                               </div>
                             </div>
                             <div className="text-right">
-                              <div className="text-base md:text-lg font-bold text-metropolis-cream">${step.amount.toFixed(2)}</div>
+                              <div className="text-lg font-bold text-amber-100">${step.amount.toFixed(2)}</div>
                             </div>
                           </li>
                         ))}
@@ -584,15 +605,15 @@ export default function RouteCalculator({ userAccounts: propAccounts }: RouteCal
                     <div className="mt-4 grid grid-cols-2 gap-2">
                       <button
                         onClick={() => saveRoute(route)}
-                        className="bg-metropolis-panel hover:bg-metropolis-steel text-metropolis-cream border border-metropolis-border px-4 py-2 text-sm tracking-wider transition-colors"
+                        className="bg-zinc-900 hover:bg-zinc-800 text-amber-400 border-2 border-amber-600 px-4 py-2 text-sm tracking-wider transition-colors"
                       >
-                        💾 SAVE TO HISTORY
+                        💾 SAVE
                       </button>
                       <button
                         onClick={() => addToFavorites(route)}
-                        className="bg-metropolis-panel hover:bg-metropolis-steel text-metropolis-cream border border-metropolis-border px-4 py-2 text-sm tracking-wider transition-colors"
+                        className="bg-zinc-900 hover:bg-zinc-800 text-amber-400 border-2 border-amber-600 px-4 py-2 text-sm tracking-wider transition-colors"
                       >
-                        ⭐ ADD TO FAVORITES
+                        ⭐ FAVORITE
                       </button>
                     </div>
                   </motion.div>

@@ -3,33 +3,45 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useState, useEffect } from 'react';
 import AuthModal from './AuthModal';
-import SwitchboardV2 from './SwitchboardV2';
 
 export default function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, signIn, signOut } = useAuth();
   const [showAuthModal, setShowAuthModal] = useState(false);
-  const [showSwitchboard, setShowSwitchboard] = useState(false);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
-  // Handle ESC key to close switchboard
+  // Handle ESC key to close settings menu
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && showSwitchboard) {
-        setShowSwitchboard(false);
+      if (e.key === 'Escape' && showSettingsMenu) {
+        setShowSettingsMenu(false);
       }
     };
     
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
-  }, [showSwitchboard]);
+  }, [showSettingsMenu]);
+
+  // Close settings menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (showSettingsMenu && !target.closest('.settings-menu-container')) {
+        setShowSettingsMenu(false);
+      }
+    };
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showSettingsMenu]);
 
   return (
     <>
       <motion.header
-        className="fixed top-0 left-0 right-0 z-50 bg-metropolis-panel border-b-2 border-metropolis-border"
+        className="fixed top-0 left-0 right-0 z-50 bg-black border-b-4 border-amber-600 font-mono"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
@@ -41,8 +53,8 @@ export default function Header() {
             className="hover:opacity-80 transition-opacity"
             aria-label="Go to home page"
           >
-            <div className="font-heading text-xl brass-accent tracking-wider">PATCH PAY</div>
-            <div className="text-xs text-metropolis-beige tracking-wider hidden sm:block">
+            <div className="text-xl font-bold text-amber-500 tracking-wider">PATCH PAY</div>
+            <div className="text-xs text-amber-600 tracking-wider hidden sm:block">
               THE TRANSFER TOWER
             </div>
           </button>
@@ -51,10 +63,10 @@ export default function Header() {
           <nav className="flex items-center gap-2 md:gap-4">
             <button
               onClick={() => navigate('/')}
-              className={`px-3 py-2 text-sm tracking-wider transition-all ${
+              className={`px-3 py-2 text-sm tracking-wider transition ${
                 isActive('/')
-                  ? 'text-metropolis-cream border-b-2 border-metropolis-cream'
-                  : 'text-metropolis-beige hover:text-metropolis-cream'
+                  ? 'bg-amber-600 text-black font-bold'
+                  : 'border-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-black'
               }`}
               aria-current={isActive('/') ? 'page' : undefined}
             >
@@ -62,63 +74,99 @@ export default function Header() {
             </button>
             <button
               onClick={() => navigate('/control-room')}
-              className={`px-3 py-2 text-sm tracking-wider transition-all ${
+              className={`px-3 py-2 text-sm tracking-wider transition ${
                 isActive('/control-room')
-                  ? 'text-metropolis-cream border-b-2 border-metropolis-cream'
-                  : 'text-metropolis-beige hover:text-metropolis-cream'
+                  ? 'bg-amber-600 text-black font-bold'
+                  : 'border-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-black'
               }`}
               aria-current={isActive('/control-room') ? 'page' : undefined}
             >
               CONTROL ROOM
             </button>
-            <button
-              onClick={() => navigate('/analytics')}
-              className={`px-3 py-2 text-sm tracking-wider transition-all ${
-                isActive('/analytics')
-                  ? 'text-metropolis-cream border-b-2 border-metropolis-cream'
-                  : 'text-metropolis-beige hover:text-metropolis-cream'
-              }`}
-              aria-current={isActive('/analytics') ? 'page' : undefined}
-            >
-              HISTORY
-            </button>
 
             {/* Switchboard Access Button */}
             <button
-              onClick={() => setShowSwitchboard(true)}
-              className="px-3 py-2 text-sm tracking-wider transition-all bg-metropolis-amber/20 border border-metropolis-amber text-metropolis-amber hover:bg-metropolis-amber/30 rounded"
-              aria-label="Open switchboard routing panel"
+              onClick={() => navigate('/control-room?mode=manual')}
+              className="px-3 py-2 text-sm tracking-wider transition border-2 border-amber-400 bg-amber-950 text-amber-400 hover:bg-amber-600 hover:text-black"
+              aria-label="Go to switchboard"
             >
               SWITCHBOARD
             </button>
 
-            {/* Auth */}
-            <div className="ml-2 pl-2 border-l border-metropolis-border hidden md:block">
-              {user ? (
-                <div className="flex items-center gap-2">
-                  <span className="text-xs text-metropolis-beige">{user.email}</span>
-                  <button
-                    onClick={signOut}
-                    className="text-xs text-metropolis-beige hover:text-metropolis-cream transition-colors"
+            {/* Settings Menu (Gear Icon) */}
+            <div className="relative settings-menu-container">
+              <button
+                onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+                className="px-3 py-2 text-sm tracking-wider transition border-2 border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-black"
+                aria-label="Open settings menu"
+                aria-expanded={showSettingsMenu}
+              >
+                ⚙
+              </button>
+
+              {/* Dropdown Menu */}
+              <AnimatePresence>
+                {showSettingsMenu && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-2 w-48 bg-black border-2 border-amber-600 shadow-lg z-50"
                   >
-                    SIGN OUT
-                  </button>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setShowAuthModal(true)}
-                  className="text-sm text-metropolis-cream hover:text-metropolis-white transition-colors tracking-wider"
-                >
-                  SIGN IN
-                </button>
-              )}
+                    <div className="py-1">
+                      {/* Saved Routes */}
+                      <button
+                        onClick={() => {
+                          navigate('/analytics');
+                          setShowSettingsMenu(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-amber-100 hover:bg-amber-600 hover:text-black transition tracking-wider"
+                      >
+                        SAVED ROUTES
+                      </button>
+
+                      {/* Divider */}
+                      <div className="border-t border-amber-700 my-1" />
+
+                      {/* Auth Section */}
+                      {user ? (
+                        <>
+                          <div className="px-4 py-2 text-xs text-amber-600 truncate">
+                            {user.email}
+                          </div>
+                          <button
+                            onClick={() => {
+                              signOut();
+                              setShowSettingsMenu(false);
+                            }}
+                            className="w-full text-left px-4 py-2 text-sm text-amber-100 hover:bg-amber-600 hover:text-black transition tracking-wider"
+                          >
+                            SIGN OUT
+                          </button>
+                        </>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            setShowAuthModal(true);
+                            setShowSettingsMenu(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-sm text-amber-100 hover:bg-amber-600 hover:text-black transition tracking-wider"
+                        >
+                          SIGN IN
+                        </button>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
           </nav>
         </div>
       </motion.header>
 
       {/* Spacer to prevent content from going under fixed header */}
-      <div className="h-[60px]" aria-hidden="true" />
+      <div className="h-[68px]" aria-hidden="true" />
 
       {/* Auth Modal */}
       <AuthModal
@@ -129,45 +177,6 @@ export default function Header() {
           setShowAuthModal(false);
         }}
       />
-
-      {/* Switchboard Modal */}
-      <AnimatePresence>
-        {showSwitchboard && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              className="fixed inset-0 bg-black/80 z-[60]"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setShowSwitchboard(false)}
-            />
-            
-            {/* Modal Content */}
-            <motion.div
-              className="fixed inset-4 md:inset-8 z-[70] overflow-auto"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ type: 'spring', damping: 25 }}
-            >
-              <div className="relative max-w-7xl mx-auto">
-                {/* Close Button */}
-                <button
-                  onClick={() => setShowSwitchboard(false)}
-                  className="absolute top-4 right-4 z-10 px-4 py-2 bg-metropolis-panel border-2 border-metropolis-border text-metropolis-cream hover:text-metropolis-white transition-colors tracking-wider text-sm"
-                  aria-label="Close switchboard"
-                >
-                  CLOSE [ESC]
-                </button>
-                
-                {/* Switchboard Component */}
-                <SwitchboardV2 />
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </>
   );
 }

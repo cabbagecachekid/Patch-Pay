@@ -5,6 +5,7 @@
 - **Kiro Usage Write-up**: [`KIRO_USAGE_WRITEUP.md`](./KIRO_USAGE_WRITEUP.md) - Comprehensive explanation of how we used Kiro
 - **Submission Checklist**: [`SUBMISSION_CHECKLIST.md`](./SUBMISSION_CHECKLIST.md) - Verification of all requirements
 - **Live Demo**: [Run locally with `npm run dev`]
+- **Saved Routes**: View route history at `/analytics`
 
 ## What is Patch Pay?
 
@@ -115,7 +116,16 @@ HOOKS_IMPLEMENTATION_COMPLETE.md  # Custom hooks details
 - Hover sounds for tactile feedback
 - All working perfectly on first try
 
-### 2. Complete Algorithm Module
+### 2. Switchboard V2 Evolution
+**Iterative Vibe Coding**: Created multiple versions of the switchboard:
+- V1: Interactive cable connections with draggable jacks
+- V2: Simplified control panel with method selection (current default)
+- Control panel approach: Amount + Method → Find Routes
+- Visual patch board displays source accounts and transfer methods
+- Shows active connections with detailed fee/time/risk information
+- Each iteration refined based on UX feedback
+
+### 3. Complete Algorithm Module
 **From Spec**: Generated entire `pathFinder.ts` with:
 - Breadth-first search algorithm
 - Cycle detection
@@ -124,7 +134,7 @@ HOOKS_IMPLEMENTATION_COMPLETE.md  # Custom hooks details
 - 3 property-based tests
 - All working on first try
 
-### 3. Account Synchronization System
+### 4. Account Synchronization System
 **Problem**: "Accounts added on one page don't show up on switchboard"
 
 **Kiro's Solution**:
@@ -189,35 +199,61 @@ npm run build
 
 ## 🎨 Features to Demo
 
-### 1. Vintage Switchboard (Manual Mode)
-- Click jacks to create connections
-- Hear authentic mechanical sounds
-- See indicator lights glow
-- Watch cables animate
+### 1. Navigation Header
+- **Fixed header** with quick access to all features
+- Navigation buttons: HOME, CONTROL ROOM, SWITCHBOARD
+- **Switchboard button** navigates to Control Room and switches to manual mode
+- Settings menu (⚙) provides access to Saved Routes and authentication
+- Accessible from any page
+- ESC key closes dropdown menus
 
-### 2. Route Calculator (Auto Mode)
-- Enter amount and deadline
-- Select source accounts
-- Press **Ctrl+Enter** to calculate
+### 2. Vintage Switchboard V2 (Manual Mode)
+- Control panel with amount input and transfer method selection
+- 5 transfer methods: Cash App, Venmo, Zelle, ACH, Wire
+- Visual patch board showing source accounts and transfer methods
+- Jack-style connectors with authentic vintage styling
+- Real-time route visualization with active connection display
+- Shows fees, timing, and risk for each method
+- Audio feedback for interactions
+- **Accessible via header button** - navigates to Control Room in manual mode
+
+### 3. Route Calculator (Auto Mode)
+- **Left Sidebar**: View all your accounts with balances
+- **Main Area**: Enter amount, deadline, and source preferences
+- Press **Ctrl+Enter** to calculate routes
 - See three routes: cheapest, fastest, recommended
+- **System Status**: Real-time account count and status indicator
 
-### 3. Keyboard Shortcuts
+### 4. Analytics / Saved Routes
+- **Accessible via settings menu (⚙)** in header
+- **Info Blurb**: Clear explanation of saved routes purpose
+- View history of calculated routes
+- Track fees avoided vs. standard rates
+- See average fees and transfer counts
+- Export route history
+- **Risk Explanation Panel**: Educational section explaining how risk scores are calculated
+  - Timing risk (50%): Buffer time before deadline
+  - Reliability risk (30%): Transfer method reliability
+  - Complexity risk (20%): Number of transfer steps
+  - Clear risk level thresholds (Low 0-30, Medium 31-60, High 61-100)
+
+### 5. Keyboard Shortcuts
 - **Ctrl+Enter**: Calculate routes
 - **Ctrl+K**: Toggle favorites
-- **Esc**: Close panels
+- **Esc**: Close dropdown menus and panels
 
-### 4. Favorite Routes
+### 6. Favorite Routes
 - Save route configurations
 - Name your favorites
 - Quick access with Ctrl+K
 
-### 5. Mobile Experience
+### 7. Mobile Experience
 - Simplified switchboard layout
 - Touch-friendly buttons
 - Clear instructions
 - Same vintage aesthetic
 
-### 6. PWA Features
+### 8. PWA Features
 - Install as app
 - Offline capable
 - Home screen icon

@@ -99,13 +99,26 @@ Kiro: [Adds Web Audio API with low-pass filters for vintage sound]
 Me: "Make it mobile-friendly but keep the vintage aesthetic"
 Kiro: [Creates SwitchboardMobile.tsx with touch-friendly layout]
 
+Me: "Upgrade to 9-port grid with smart indicator lights and algorithm integration"
+Kiro: [Creates SwitchboardV2.tsx - now the default implementation]
+
 Me: "Add keyboard shortcuts for power users"
 Kiro: [Implements useKeyboardShortcuts hook with Ctrl+Enter, Ctrl+K]
 ```
 
 ### Most Impressive Vibe Coding Moments
 
-**1. The Switchboard Audio System**
+**1. The Switchboard Evolution (V1 → V2)**
+- Started with basic cable connections (Switchboard.tsx)
+- Evolved to 9-port grid with smart states (SwitchboardV2.tsx)
+- V2 features:
+  - OFF/ORANGE/GREEN indicator lights
+  - Optional amount input
+  - Real-time algorithm integration
+  - Cleaner visual design
+- V2 became default due to superior UX
+
+**2. The Switchboard Audio System**
 - Asked for "authentic 1927 switchboard sounds"
 - Kiro generated Web Audio API code with:
   - Low-pass filters for muffled effect
@@ -113,16 +126,25 @@ Kiro: [Implements useKeyboardShortcuts hook with Ctrl+Enter, Ctrl+K]
   - Hover sounds for tactile feedback
 - Sounded perfect on first try
 
-**2. The Account Synchronization System**
+**3. The Account Synchronization System**
 - Problem: "Accounts added on one page don't show up on switchboard"
 - Kiro immediately understood the issue and:
-  - Created React Context provider
+  - Created React Context provider (`useUserAccounts` hook)
   - Added localStorage persistence
   - Updated 6 components to use centralized state
   - Added custom event dispatching for real-time sync
 - All working perfectly, no bugs
 
-**3. The Mobile Switchboard**
+**5. URL State Management for Mode Switching**
+- Challenge: "SWITCHBOARD button should navigate to Control Room in manual mode"
+- Initial approach used DOM queries and timeouts (fragile)
+- Kiro suggested cleaner solution:
+  - Use URL search params (`?mode=manual`)
+  - Read params on component mount
+  - Clean URL after reading
+- More reliable, more React-idiomatic
+
+**4. The Mobile Switchboard**
 - Challenge: "Keep vintage aesthetic but make it mobile-friendly"
 - Kiro created a completely different layout:
   - Vertical instead of spatial

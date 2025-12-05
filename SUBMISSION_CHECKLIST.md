@@ -91,7 +91,7 @@ find .kiro -type f
 - ✅ Vintage switchboard interface (vibe coding)
 - ✅ Account management system
 - ✅ Route calculator with favorites
-- ✅ Analytics dashboard
+- ✅ Saved routes dashboard
 - ✅ Fee calculator
 
 ### Polish

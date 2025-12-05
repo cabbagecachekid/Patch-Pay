@@ -86,4 +86,4 @@
 
 ## Usage
 
-The switchboard is now accessible from the header "SWITCHBOARD" button. It opens as a modal overlay and provides a complete transfer routing experience with real calculations from your algorithm!
+The switchboard is now accessible from the header "SWITCHBOARD" button. It navigates to the Control Room and automatically switches to manual mode, providing a complete transfer routing experience with real calculations from your algorithm!
